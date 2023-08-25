@@ -10,12 +10,14 @@ let INITIAL_STATE: Item[] = [
     "title": "Item 1", 
     "type": "normal",
     "description": "this is the item 1",
+    subItems: []
   },
   {
     "id": 6464564,
     "title": "Item 2", 
     "type": "rare",
     "description": "this is the item 2",
+    subItems: []
   },
 ]
 
