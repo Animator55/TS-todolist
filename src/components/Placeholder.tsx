@@ -1,33 +1,34 @@
 interface Props {
     index: string
     moveItem: Function 
-    DNDZone?: boolean
+    DNDZone?: HTMLElement
 }
 
 export default function Placeholder ({index, moveItem, DNDZone}: Props) {
     return (<p>
-        <button 
+        <span 
             onMouseOver={(e)=>{
-                const target = e.target
-                if(target.parentElement.parentElement.dataset.dragging !== "false") {
-                    target.parentElement.className = 'expanded'
-                }
+                const target = e.currentTarget.parentElement
+                if(target && target.parentElement?.dataset.dragging !== "false") target.className = 'expanded'
             }}
             onMouseLeave={(e)=>{
-                e.target.parentElement.classList.remove('expanded')
+                const target = e.currentTarget.parentElement
+                if(target) target.classList.remove('expanded')
             }}
             onMouseUp={(e)=>{
-                if(e.target.parentElement.parentElement.dataset.dragging !== "false") 
-                console.log(e)
-                    if(index.split("-")[1] !== undefined) {
-                        let source = e.target.parentElement.parentElement.dataset.dragging === undefined ? DNDZone : e.target.parentElement.parentElement
+                const target = e.currentTarget.parentElement
+                if(!target || target.parentElement?.dataset.dragging === "false") return 
+                if(index.split("-")[1] !== undefined) {
+                    let source = target.parentElement?.dataset.dragging === undefined ? DNDZone : target.parentElement
 
-                        moveItem(source.dataset.dragging, index)}
-                    else {
-                        moveItem(e.target.parentElement.parentElement.dataset.dragging, index)}
-                e.target.parentElement.classList.remove('expanded')
+                    moveItem(source?.dataset.dragging, index)
+                }
+                else {
+                    moveItem(target.parentElement?.dataset.dragging, index)
+                }
+                target.classList.remove('expanded')
             }} 
         >
-        </button>
+        </span>
     </p>)
 }

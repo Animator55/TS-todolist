@@ -1,37 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
 body {
-    --cwhite: #d7f3f2;
-    --clight: #9ec4be;
-    --cdarkgrey: #3d6251;
-    --cgrey: #5b6f66;
-    --ccyan: #00aba8;
-    --cgreen: #007b3e;
-    --clightgreen: #009c22;
-    --cblack: #001c0e;
-    margin: 0;
-    background-color: var(--cwhite);
-    --nav-height: 64px;
-    --sidebar-width: 200px;
-    overflow-y: hidden;
+  --cwhite: #d7f3f2;
+  --clight: #9ec4be;
+  --cdarkgrey: #3d6251;
+  --cgrey: #47bd88;
+  --ccyan: #00aba8;
+  --cgreen: #007b3e;
+  --clightgreen: #009c22;
+  --cblack: #001c0e;
+  margin: 0;
+  background-color: var(--cwhite);
+  overflow-y: hidden;
+}
+
+hr, h3 {
+  margin: 0;
 }
 
 * {
-    font-family: 'Signika Negative', sans-serif;
-    user-select: none;
-    -ms-user-select: none;
-    -moz-user-select: none;
+  font-family: 'Signika Negative', sans-serif;
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
 }
 
-input, textarea {
+input,
+textarea {
   outline: none;
   background-color: var(--cblack);
-  color:var(--clight);
+  color: var(--clight);
   border-radius: 25px;
   border: 3px solid var(--cblack);
   padding: 1%;
 }
 
-input:focus{
+input:focus {
   background-color: var(--cwhite);
   color: var(--cblack);
 }
@@ -65,17 +69,19 @@ input:focus{
 
 /*/**/
 
-.drag-n-drop-zone {
+/*CLASES-------------------------*/
+
+.dnd-zone {
   position: relative;
   display: flex;
+  flex-direction: column;
   height: calc(100vh - 130px);
   max-height: calc(100vh - 130px);
   overflow-y: auto;
   overflow-x: hidden;
-  flex-direction: column;
 }
 
-.drag-n-drop-zone > p {
+.dnd-zone>p {
   margin: 0;
   z-index: 1;
   height: 1px;
@@ -83,20 +89,21 @@ input:focus{
   transition: all 300ms;
 }
 
-.drag-n-drop-zone > p.expanded {
+.dnd-zone>p.expanded {
   height: 45px;
   background-color: #69696946;
 }
 
-.drag-n-drop-zone > *:not(p), .drag-n-drop-zone[dragging="false"] > p {
+.dnd-zone>*:not(p),
+.dnd-zone[data-dragging="false"]>p {
   z-index: 0;
 }
 
-.drag-n-drop-zone[dragging="false"] > *:not(p) {
+.dnd-zone[data-dragging="false"]>*:not(p) {
   z-index: 1;
 }
 
-.drag-n-drop-zone > p > span {
+.dnd-zone>p>span {
   position: absolute;
   height: 15px;
   margin-bottom: 20px;
@@ -116,125 +123,20 @@ input:focus{
   background-color: var(--cgrey);
 }
 
-.drag-n-drop-zone[dragging="false"] p {
+.dnd-zone[data-dragging="false"] p {
   z-index: -1;
 }
 
 
-.sections-item-list.dragging, .sub.dragging {
+.sections-item-list.dragging,
+.sub.dragging {
   position: fixed;
   z-index: 1;
   margin: 0 4px;
   width: 100%;
 }
 
-
-/* .sub {
-  border-radius: 7px;
-  background-color: var(--clight);
-}
-
 .top-bar {
   display: flex;
-  align-items: center;
-  padding-left: 9px;
-  height: 35px;
+  gap: 1rem;
 }
-
-.top-bar > :first-child {
-  display: flex;
-  align-items: center;
-  min-width: 11%;    
-  height: 100%;
-}
-.sub.top-bar > :first-child {
-  min-width: 8%;
-}
-
-.top-bar > :first-child > :first-child {
-  margin-right: 10px;
-}
-
-.top-bar hr{
-  height: 100%;
-  margin: 0 10px
-}
-
-.top-bar > [contenteditable=true] {
-  max-height: 78%;
-  overflow: hidden;    
-  min-width: 25%;
-  max-width: 25%;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  user-select: none;
-}
-
-.top-bar > [contenteditable=true]:first-of-type {
-  min-width: 25%;
-  max-width: 25%;
-  margin: 4px;
-}
-
-.top-bar > .close-icon {
-  margin: 0 10px 0 auto;
-  color: var(--cwhite);
-}
-
-.top-bar:hover > .close-icon {
-  transition: all 200ms;
-  opacity: 1;
-  transform: scale(1);
-}
-
-.sub-items {
-  padding-left: 5%;
-  background-color: var(--clight);
-  height: 0px;
-  transition: height 1.5s;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.sub-items > p {
-  margin: 0;
-  z-index: 1;
-  height: 1px;
-  position: relative;
-  transition: height 300ms;
-}
-
-.sub-items > p.expanded {
-  background-color: #69696946;
-  height: 45px
-}
-
-.sub-items > *:not(p) {
-  z-index: 1;
-  .sub-items > p > span {
-    position: absolute;
-    height: 35px;
-    width: 100%;
-  }
-  
-  .sections-item-list:hover > .sub-items, .sub-items.expanded {
-    height: 17vh;
-    transition: height 150ms;
-  }
-  
-  .drag-n-drop-zone[dragging="false"] .sections-item-list:hover > .sub-items:not(.expanded) {
-    height: 0px!important;
-  }
-  
-  .sections-item-list.expanded {
-    z-index: 2!important;
-  }
-  .sections-item-list.child-dragging {
-    z-index: 2;
-  }
-  
-  .sections-item-list.dragging > .sub-items {
-    height: 0px;
-    transition: height 300ms;
-  }
-} */

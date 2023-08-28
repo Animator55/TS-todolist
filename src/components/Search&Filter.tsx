@@ -1,12 +1,13 @@
 import React from 'react'
-// import SortSpan from './SortSpan'
+import SortSpan from './SortSpan'
 
 interface Props {
     query: { query: string, setQuery: React.Dispatch<React.SetStateAction<string>> }
+    sort: { sort: string, sortList: string[], setSort: React.Dispatch<React.SetStateAction<string>> }
 }
 
 // {selec, query, sort, dis, queryList}
-export default function SearchAndFilter({ query }: Props) {
+export default function SearchAndFilter({ query, sort }: Props) {
 
     const Search = (e: React.KeyboardEvent<HTMLInputElement>) =>{
         let target: HTMLInputElement = e.currentTarget
@@ -31,6 +32,6 @@ export default function SearchAndFilter({ query }: Props) {
                 ></div>
             </button> : null} */}
 
-        {/* {sort !== undefined ? <SortSpan sortList={sort.sortList} sort={sort.sort} setSort={sort.setSort}/> : null} */}
+        {sort !== undefined ? <SortSpan sortObj={sort}/> : null}
     </div>
 }

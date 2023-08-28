@@ -11,6 +11,7 @@ interface Props {
 
 export default function List({ array }: Props) {
     const [query, setQuery] = React.useState("")
+    const [sort, setSort] = React.useState("")
     const [refresh, activateRefresh] = React.useState(false)
     const List = array
     // const [popUp, setPopUp] = React.useState([false, undefined])
@@ -24,14 +25,23 @@ export default function List({ array }: Props) {
         // else 
         activateRefresh(!refresh)
     }
+    
+    const getSortKeys = ()=>{
+        if(List.length === 0) return []
+        let keys = Object.keys(List[0])
+        let SortKeys = keys.filter(key=>{
+            if(key !== "id" && key !== 'subItems') return key
+        })
+        return SortKeys
+    }
 
     // React.useEffect(()=>{
     //     setRejectedMoves(["source", "target"])
     // }, [refresh, query])
 
     return <div>
-        <SearchAndFilter query={{ query: query, setQuery: setQuery }} />
-        <section className='drag-n-drop-zone' data-dragging="false">
+        <SearchAndFilter query={{ query: query, setQuery: setQuery }} sort={{ sort: sort, sortList: getSortKeys(), setSort: setSort}} />
+        <section className='dnd-zone' data-dragging="false">
             {/* <AutoComplete autoList={autoList} queryList={queryList}/> */}
             {/* <AddBtn click={()=>{changeList(true)}}/> */}
             <>

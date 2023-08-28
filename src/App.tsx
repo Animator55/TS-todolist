@@ -2,7 +2,7 @@ import React from 'react'
 import './assets/App.css'
 import { Item } from './vite-env'
 import List from './components/List'
-import Form from './components/Form'
+// import Form from './components/Form'
 
 let INITIAL_STATE: Item[] = [
   {
@@ -28,9 +28,9 @@ export default function App() {
     setList(INITIAL_STATE)
   }, [])
 
-  const addItem = (data: Item)=>{
-    setList([...list, data])
-  }
+  // const addItem = (data: Item)=>{
+  //   setList([...list, data])
+  // }
 
   return <main>
     <List array={list}/>

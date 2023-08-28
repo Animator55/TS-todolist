@@ -3,7 +3,7 @@ import selectText from '../logic/selectText';
 import { Item } from '../vite-env';
 // import Placeholder from './Placeholder';
 
-let listElement = document.getElementsByClassName('drag-n-drop-zone') as HTMLCollectionOf<HTMLElement>
+let listElement = document.getElementsByClassName('dnd-zone') as HTMLCollectionOf<HTMLElement>
 let itemElement = document.getElementsByClassName('sections-item-list') as HTMLCollectionOf<HTMLElement>
 
 // function SubDraggableItem ({item, changeList, setPopUp}) {
