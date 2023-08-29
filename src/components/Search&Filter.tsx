@@ -14,7 +14,7 @@ export default function SearchAndFilter({ query, sort }: Props) {
         query.setQuery(target.value)
     }
 
-    return <div className="article-list-config">
+    return <div className="search-filter">
         {/* {selec !== undefined ? selec.selected.length > 0 ? <>
                 <button className="btn-cblack" onClick={()=>{setPopUp(true)}}>
                     <div className='trash-icon'></div>

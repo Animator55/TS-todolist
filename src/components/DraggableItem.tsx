@@ -1,10 +1,12 @@
 // import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import selectText from '../logic/selectText';
 import { Item } from '../vite-env';
+import { faCaretDown, faPencil, faCheckSquare, faXmark, faInfo } from '@fortawesome/free-solid-svg-icons';
 // import Placeholder from './Placeholder';
 
 let listElement = document.getElementsByClassName('dnd-zone') as HTMLCollectionOf<HTMLElement>
-let itemElement = document.getElementsByClassName('sections-item-list') as HTMLCollectionOf<HTMLElement>
+let itemElement = document.getElementsByClassName('item') as HTMLCollectionOf<HTMLElement>
 
 // function SubDraggableItem ({item, changeList, setPopUp}) {
 //     let parentIndex = item.index[0]
@@ -100,34 +102,41 @@ interface Props {
 export default function DraggableItem ({item, query}: Props) {
     
     const DragNDrop = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-        // if(e.target.accessKey === "no-drag") return
+        const target = e.target as HTMLElement
+        if(target?.classList.contains("no-drag")) return
         e = e || window.event;
         let el = itemElement[item.index]
-        let cOffY = e.clientY;
+
+        let cOffY = e.currentTarget.offsetTop
 
         function dragEnd(){
             document.removeEventListener('mousemove', dragMove);
             document.removeEventListener('mouseup', dragEnd);
 
+            el.nextElementSibling?.classList.remove("expanded")
             el.classList.remove('dragging')
             listElement[0].dataset.dragging = "false"
         }
 
         function dragMove(dragMov: MouseEvent){
             listElement[0].dataset.dragging = `${item.index}`
-            el.classList.add('dragging')
+            let prev = parseInt(el.style.top)
 
-            el.style.top = dragMov.clientY > 45 ? dragMov.clientY + 5+ 'px' : "45px"
+            el.style.top = prev + dragMov.movementY + 'px'
         }
-        el.style.top = cOffY + 5 + "px"
+        el.classList.add('dragging')
+        el.nextElementSibling?.classList.add("expanded")
+        el.style.top = cOffY + "px"
 
         document.addEventListener('mousemove', dragMove);
         document.addEventListener('mouseup', dragEnd);
     }
     return (
-        <div className="sections-item-list">
-            <section className='top-bar' onMouseDown={DragNDrop}>
-                <div>
+        <div className="item">
+            <section className='top-bar' onMouseDown={DragNDrop} data-priority={item.data.priority}>
+                <div className='progress'>
+                    <div>0/0</div>
+                    <button className='no-drag'><FontAwesomeIcon icon={faCaretDown}/></button>
                     {/* <span className='span-icon' onClick={(e)=>{
                         let el = itemElement[item.index]
                         el.children[1].classList.toggle('expanded', !el.children[1].classList.contains("expanded"));
@@ -141,45 +150,18 @@ export default function DraggableItem ({item, query}: Props) {
                         <i className="mobile-icon" style={{color: item.data.mobile ? "var(--cwhite)" : "var(--cblack)"}} title="Mostrar en mobile"></i>
                     </div> */}
                 </div>
-                <hr/> 
-                <h3 
-                    data-text="Texto" dangerouslySetInnerHTML={{__html: selectText(item.data.title, query)}} contentEditable suppressContentEditableWarning
-                    // onBlur={(e)=>{if(item.data.name !== e.target.innerText) changeList({...item.data, name: e.target.innerText}, item.index, undefined, "name")}}
-                    // onKeyDown={(e)=>{if(e.key === "Enter" && item.data.name !== e.target.innerText) {
-                    //     e.preventDefault();
-                    //     changeList({...item.data, name: e.target.innerText}, item.index, undefined, "name")
-                    // }}}
-                ></h3>
-                <hr/> 
-                <div className="autocomplete-container">
-                    {/* <h3 
-                        data-text="Link" className='m-0' dangerouslySetInnerHTML={{__html: item.data.type}} 
-                        contentEditable suppressContentEditableWarning
-                        onClick={(e)=>{
-                            listElement[0].firstChild.accessKey = item.index
-                            listElement[0].firstChild.classList.add("expanded")
-                            listElement[0].firstChild.style.top = e.target.parentElement.parentElement.offsetTop + 35 + "px"
-                            listElement[0].firstChild.style.left = e.target.parentElement.parentElement.clientWidth - e.target.clientWidth - 20 + "px"
-                            listElement[0].firstChild.style.width = e.target.clientWidth + "px"
-                        }}
-                        onKeyDown={(e)=>{
-                            if(e.key === "Enter") {
-                                listElement[0].firstChild.classList.remove("expanded")
-                                if(item.data.url !== e.target.innerText) 
-                                changeList({...item.data, url: e.target.innerText}, item.index, undefined, "url")
-                            }
-                        }}
-                        onBlur={(e)=>{
-                            if(item.data.url !== e.target.innerText) 
-                            changeList({...item.data, url: e.target.innerText}, item.index, undefined, "url")
-                            listElement[0].firstChild.classList.remove("expanded")
-                        }}
-                    ></h3> */}
+                <div className='main'>
+                    <h3 data-text="Title" dangerouslySetInnerHTML={{__html: selectText(item.data.title, query)}}/>
+                    <p className='description' data-text="Description">{item.data.description}</p>
                 </div>
-                <i 
-                    className='close-icon animated' 
-                    // onClick={()=>setPopUp(()=>{changeList(false, item.index)})}
-                ></i>
+                <div className='actions'>
+                    <button className='no-drag'><FontAwesomeIcon icon={faPencil}/></button>
+                    <button className='no-drag'><FontAwesomeIcon icon={faCheckSquare}/></button>
+                    <button className='no-drag'><FontAwesomeIcon icon={faXmark}/></button>
+                </div>
+                <div className='info-button no-drag'>
+                    <button className='no-drag'><FontAwesomeIcon icon={faInfo}/></button>
+                </div>
             </section>
             {/* <section className={isOpen ? 'sub-items expanded':'sub-items'}>
                 <Placeholder index={item.index + "-" + "0"} moveItem={moveItem} DNDZone={listElement[0]}/>

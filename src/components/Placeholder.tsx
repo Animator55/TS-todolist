@@ -9,7 +9,9 @@ export default function Placeholder ({index, moveItem, DNDZone}: Props) {
         <span 
             onMouseOver={(e)=>{
                 const target = e.currentTarget.parentElement
-                if(target && target.parentElement?.dataset.dragging !== "false") target.className = 'expanded'
+                if(target && target.parentElement?.dataset.dragging !== "false") {
+                    target.className = 'expanded'
+                }
             }}
             onMouseLeave={(e)=>{
                 const target = e.currentTarget.parentElement
