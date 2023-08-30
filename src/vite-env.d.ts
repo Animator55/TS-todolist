@@ -2,6 +2,7 @@
 
 export interface SubItem {
   id: number
+  check: boolean
   title?: string
   description?: string
   priority?: string
@@ -9,8 +10,9 @@ export interface SubItem {
 
 export interface Item {
     id: number
+    check: boolean
     title?: string
     description?: string
     priority?: string
-    subItems?: SubItem[]
+    subItems: SubItem[]
   }

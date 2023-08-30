@@ -11,7 +11,7 @@ interface Props {
 
 export default function List({ array }: Props) {
     const [query, setQuery] = React.useState("")
-    const [sort, setSort] = React.useState("")
+    const [sort, setSort] = React.useState(["0", ""])
     const [refresh, activateRefresh] = React.useState(false)
     const List = array
     // const [popUp, setPopUp] = React.useState([false, undefined])
@@ -39,7 +39,7 @@ export default function List({ array }: Props) {
     //     setRejectedMoves(["source", "target"])
     // }, [refresh, query])
 
-    return <div>
+    return <>
         <SearchAndFilter query={{ query: query, setQuery: setQuery }} sort={{ sort: sort, sortList: getSortKeys(), setSort: setSort}} />
         <section className='dnd-zone' data-dragging="false">
             {/* <AutoComplete autoList={autoList} queryList={queryList}/> */}
@@ -58,5 +58,5 @@ export default function List({ array }: Props) {
                 })}
             </>
         </section>
-    </div>
+    </>
 }

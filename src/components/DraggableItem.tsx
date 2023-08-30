@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import selectText from '../logic/selectText';
 import { Item } from '../vite-env';
-import { faCaretDown, faPencil, faCheckSquare, faXmark, faInfo } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faPencil, faCheckSquare, faXmark, faInfo, faClock } from '@fortawesome/free-solid-svg-icons';
 // import Placeholder from './Placeholder';
 
 let listElement = document.getElementsByClassName('dnd-zone') as HTMLCollectionOf<HTMLElement>
@@ -131,24 +131,28 @@ export default function DraggableItem ({item, query}: Props) {
         document.addEventListener('mousemove', dragMove);
         document.addEventListener('mouseup', dragEnd);
     }
+
+    const checkSubCount = (total:number)=>{
+        let checkCount = 0
+        for(let i=0; i<total;i++){
+            if(item.data.subItems[i]?.check) checkCount++
+        }
+        return checkCount
+    }
+
+    const calculateProgress = (): number => {
+        let total = item.data.subItems?.length
+        if(total === 0) return item.data.check ? 100 : 0
+        let checkCount = checkSubCount(total)
+        return checkCount * 100 / total
+    }
     return (
         <div className="item">
             <section className='top-bar' onMouseDown={DragNDrop} data-priority={item.data.priority}>
+                <div className='progress-bar' style={{width: calculateProgress()+"%"}}></div>
                 <div className='progress'>
-                    <div>0/0</div>
+                    <div>{item.data.subItems?.length !== 0 ? `${checkSubCount(item.data.subItems?.length)}/${item.data.subItems?.length}` : <FontAwesomeIcon icon={faClock}/>}</div>
                     <button className='no-drag'><FontAwesomeIcon icon={faCaretDown}/></button>
-                    {/* <span className='span-icon' onClick={(e)=>{
-                        let el = itemElement[item.index]
-                        el.children[1].classList.toggle('expanded', !el.children[1].classList.contains("expanded"));
-                        handlerOpen(item.data._id)
-                    }}></span>
-                    {item.data.subItems !== undefined ? <h2 className='mr-5px'>{item.data.subItems.length === 0 ? "" : item.data.subItems.length}</h2> : null}
-                    <div className='d-flex ml-auto' onClick={()=>{if(item.data.name !== "") changeList({...item.data, desktop: !item.data.desktop}, item.index, undefined, "desktop")}}>
-                        <i className="display-icon" style={{color: item.data.desktop ? "var(--cwhite)" : "var(--cblack)"}} title="Mostrar en desktop"></i>
-                    </div>
-                    <div className='d-flex' onClick={()=>{if(item.data.name !== "") changeList({...item.data, mobile: !item.data.mobile}, item.index, undefined, "mobile")}}>
-                        <i className="mobile-icon" style={{color: item.data.mobile ? "var(--cwhite)" : "var(--cblack)"}} title="Mostrar en mobile"></i>
-                    </div> */}
                 </div>
                 <div className='main'>
                     <h3 data-text="Title" dangerouslySetInnerHTML={{__html: selectText(item.data.title, query)}}/>
