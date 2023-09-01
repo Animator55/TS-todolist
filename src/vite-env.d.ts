@@ -2,17 +2,19 @@
 
 export interface SubItem {
   id: number
-  check: boolean
-  title?: string
-  description?: string
-  priority?: string
+  checked: boolean
+  created: number
+  title: string
+  description: string
+  priority: number
 }
 
 export interface Item {
     id: number
-    check: boolean
-    title?: string
-    description?: string
-    priority?: string
+    checked: boolean
+    created: number,
+    title: string
+    description: string
+    priority: number
     subItems: SubItem[]
   }

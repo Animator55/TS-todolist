@@ -10,7 +10,7 @@ export default function Placeholder ({index, moveItem, DNDZone}: Props) {
             onMouseOver={(e)=>{
                 const target = e.currentTarget.parentElement
                 if(target && target.parentElement?.dataset.dragging !== "false") {
-                    target.className = 'expanded'
+                    target.classList.add('expanded')
                 }
             }}
             onMouseLeave={(e)=>{

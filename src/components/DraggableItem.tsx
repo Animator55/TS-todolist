@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import selectText from '../logic/selectText';
 import { Item } from '../vite-env';
-import { faCaretDown, faPencil, faCheckSquare, faXmark, faInfo, faClock } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faPencil, faCheckSquare, faXmark, faInfo, faClock, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 // import Placeholder from './Placeholder';
 
 let listElement = document.getElementsByClassName('dnd-zone') as HTMLCollectionOf<HTMLElement>
@@ -125,7 +125,7 @@ export default function DraggableItem ({item, query}: Props) {
             el.style.top = prev + dragMov.movementY + 'px'
         }
         el.classList.add('dragging')
-        el.nextElementSibling?.classList.add("expanded")
+        el.nextElementSibling?.classList.add("expanded-absolute")
         el.style.top = cOffY + "px"
 
         document.addEventListener('mousemove', dragMove);
@@ -135,14 +135,14 @@ export default function DraggableItem ({item, query}: Props) {
     const checkSubCount = (total:number)=>{
         let checkCount = 0
         for(let i=0; i<total;i++){
-            if(item.data.subItems[i]?.check) checkCount++
+            if(item.data.subItems[i]?.checked) checkCount++
         }
         return checkCount
     }
 
     const calculateProgress = (): number => {
         let total = item.data.subItems?.length
-        if(total === 0) return item.data.check ? 100 : 0
+        if(total === 0) return item.data.checked ? 100 : 0
         let checkCount = checkSubCount(total)
         return checkCount * 100 / total
     }
@@ -151,7 +151,7 @@ export default function DraggableItem ({item, query}: Props) {
             <section className='top-bar' onMouseDown={DragNDrop} data-priority={item.data.priority}>
                 <div className='progress-bar' style={{width: calculateProgress()+"%"}}></div>
                 <div className='progress'>
-                    <div>{item.data.subItems?.length !== 0 ? `${checkSubCount(item.data.subItems?.length)}/${item.data.subItems?.length}` : <FontAwesomeIcon icon={faClock}/>}</div>
+                    <div>{item.data.subItems?.length !== 0 ? `${checkSubCount(item.data.subItems?.length)}/${item.data.subItems?.length}` : <FontAwesomeIcon icon={item.data.checked ? faCheckCircle : faClock}/>}</div>
                     <button className='no-drag'><FontAwesomeIcon icon={faCaretDown}/></button>
                 </div>
                 <div className='main'>

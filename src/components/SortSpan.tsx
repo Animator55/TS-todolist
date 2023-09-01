@@ -34,7 +34,7 @@ export default function SortSpan ({sortObj}: Props) {
                         setSort([state, value])
                     }} 
                     key={Math.random()}>
-                        {el}
+                        <p>{el}</p>
                         {selected && <FontAwesomeIcon icon={sort[0] === "-1" ? faCaretUp : faCaretDown}/>}
                     </button>
             })}

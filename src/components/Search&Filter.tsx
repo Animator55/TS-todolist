@@ -34,6 +34,6 @@ export default function SearchAndFilter({ query, sort }: Props) {
                 ></div>
             </button> : null} */}
 
-        {sort !== undefined ? <SortSpan sortObj={sort}/> : null}
+        <SortSpan sortObj={sort}/>
     </div>
 }

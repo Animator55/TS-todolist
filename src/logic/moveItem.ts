@@ -8,8 +8,11 @@ interface Props {
 
 export default function moveItemFunc ({source, target, List}: Props): Array<string | undefined> {
     if(source === target || List.length === 0) return []
-    let item: Item = {id: -1}
-    let subItem: SubItem = {id: -2}
+    let itemP: Item = {id: 2, checked: false, created: 0, title: "", description:"", priority: 0, subItems: []}
+    let subItemP: SubItem = {id: 2, checked: false, created: 0, title: "", description:"", priority: 0}
+
+    let item
+    let subItem
 
     console.log(source, target)
     let SourceSplit: string[] = source.split("-") 
@@ -22,20 +25,20 @@ export default function moveItemFunc ({source, target, List}: Props): Array<stri
     let SubItemTarget = Number(TargetSplit[1])
 
     //checking and trowing error
-    if(List[ItemSource].subItems!.length !== 0 && SourceSplit.length === 1 && TargetSplit.length > 1) 
-    return [SourceSplit.join("-"), TargetSplit.join("-")]
+    // if(List[ItemSource].subItems!.length !== 0 && SourceSplit.length === 1 && TargetSplit.length > 1) 
+    // return [SourceSplit.join("-"), TargetSplit.join("-")]
 
     //getting item
     if(SourceSplit.length > 1) {
-        subItem = List[ItemSource].subItems!.splice(SubItemSource, 1, {id: 2})[0]
+        subItem = List[ItemSource].subItems!.splice(SubItemSource, 1, subItemP)[0]
     }
-    else item = List.splice(ItemSource, 1, {id: 2})[0]
+    else item = List.splice(ItemSource, 1, itemP)[0]
 
     //setting item
-    if(TargetSplit.length > 1) {
-        List[ItemTarget].subItems!.splice(SubItemTarget, 0, item)
+    if(TargetSplit.length > 1 && subItem !== undefined) {
+        List[ItemTarget].subItems!.splice(SubItemTarget, 0, subItem)
     }
-    else List.splice(ItemTarget, 0, item)
+    else if(item !== undefined) List.splice(ItemTarget, 0, item)
 
     //deleting placeholder
     if(SourceSplit.length === 1) {
@@ -60,4 +63,5 @@ export default function moveItemFunc ({source, target, List}: Props): Array<stri
         }
     }
     return []
+
 }
