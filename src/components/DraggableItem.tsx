@@ -1,9 +1,9 @@
-// import React from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import selectText from '../logic/selectText';
 import { Item } from '../vite-env';
-import { faCaretDown, faPencil, faCheckSquare, faXmark, faInfo, faClock, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
-// import Placeholder from './Placeholder';
+import { faCaretDown, faPencil, faCheckSquare, faXmark, faInfo, faClock, faCheckCircle, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import Placeholder from './Placeholder';
 
 let listElement = document.getElementsByClassName('dnd-zone') as HTMLCollectionOf<HTMLElement>
 let itemElement = document.getElementsByClassName('item') as HTMLCollectionOf<HTMLElement>
@@ -97,9 +97,13 @@ let itemElement = document.getElementsByClassName('item') as HTMLCollectionOf<HT
 interface Props {
     item: {data: Item, index: number}
     query: string
+    lastMove: boolean
+    isOpen: boolean
+    open: VoidFunction
+    moveItem: Function
 }
 
-export default function DraggableItem ({item, query}: Props) {
+export default function DraggableItem ({item, query, lastMove, isOpen, open, moveItem}: Props) {
     
     const DragNDrop = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         const target = e.target as HTMLElement
@@ -113,7 +117,7 @@ export default function DraggableItem ({item, query}: Props) {
             document.removeEventListener('mousemove', dragMove);
             document.removeEventListener('mouseup', dragEnd);
 
-            el.nextElementSibling?.classList.remove("expanded")
+            el.nextElementSibling?.classList.remove("expanded-absolute")
             el.classList.remove('dragging')
             listElement[0].dataset.dragging = "false"
         }
@@ -147,15 +151,15 @@ export default function DraggableItem ({item, query}: Props) {
         return checkCount * 100 / total
     }
     return (
-        <div className="item">
+        <div className={lastMove ? "item pop" : "item"}>
             <section className='top-bar' onMouseDown={DragNDrop} data-priority={item.data.priority}>
                 <div className='progress-bar' style={{width: calculateProgress()+"%"}}></div>
                 <div className='progress'>
                     <div>{item.data.subItems?.length !== 0 ? `${checkSubCount(item.data.subItems?.length)}/${item.data.subItems?.length}` : <FontAwesomeIcon icon={item.data.checked ? faCheckCircle : faClock}/>}</div>
-                    <button className='no-drag'><FontAwesomeIcon icon={faCaretDown}/></button>
+                    {item.data.subItems?.length !== 0 && <button className='no-drag' onClick={open}> <FontAwesomeIcon icon={isOpen ? faCaretUp : faCaretDown}/></button>}
                 </div>
                 <div className='main'>
-                    <h3 data-text="Title" dangerouslySetInnerHTML={{__html: selectText(item.data.title, query)}}/>
+                    <h3 className='title' data-text="Title" dangerouslySetInnerHTML={{__html: selectText(item.data.title, query)}}/>
                     <p className='description' data-text="Description">{item.data.description}</p>
                 </div>
                 <div className='actions'>
@@ -167,19 +171,20 @@ export default function DraggableItem ({item, query}: Props) {
                     <button className='no-drag'><FontAwesomeIcon icon={faInfo}/></button>
                 </div>
             </section>
-            {/* <section className={isOpen ? 'sub-items expanded':'sub-items'}>
+            <section className={isOpen ? 'sub-items expanded':'sub-items'}>
                 <Placeholder index={item.index + "-" + "0"} moveItem={moveItem} DNDZone={listElement[0]}/>
-                {item.data.subItems?.map((item, i)=>{
+                {item.data.subItems?.map((subItem, i)=>{
                     return (<React.Fragment key={Math.random()}>
-                        <SubDraggableItem
+                        {/* <SubDraggableItem
                             item={{data: item, index: [item.index, i]}}
-                            changeList={(change, index)=>{changeList(change, item.index, index)}}
-                            setPopUp={setPopUp}
-                        />
+                            // changeList={(change, index)=>{changeList(change, item.index, index)}}
+                            // setPopUp={setPopUp}
+                        /> */}
+                        <div className='sub-item'>{subItem.title}</div>
                         <Placeholder index={item.index + "-" + (i+1)} moveItem={moveItem} DNDZone={listElement[0]}/>
                     </React.Fragment>)
                 })}
-            </section> */}
+            </section>
         </div>
     )
 }

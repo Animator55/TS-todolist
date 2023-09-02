@@ -6,8 +6,8 @@ interface Props {
     List: Item[]
 }
 
-export default function moveItemFunc ({source, target, List}: Props): Array<string | undefined> {
-    if(source === target || List.length === 0) return []
+export default function moveItemFunc ({source, target, List}: Props): number {
+    if(source === target || List.length === 0) return -1
     let itemP: Item = {id: 2, checked: false, created: 0, title: "", description:"", priority: 0, subItems: []}
     let subItemP: SubItem = {id: 2, checked: false, created: 0, title: "", description:"", priority: 0}
 
@@ -62,6 +62,6 @@ export default function moveItemFunc ({source, target, List}: Props): Array<stri
             }   
         }
     }
-    return []
+    return item !== undefined ? item.id : subItem!.id
 
 }
