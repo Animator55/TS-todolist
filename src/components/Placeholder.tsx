@@ -1,10 +1,9 @@
 interface Props {
     index: string
     moveItem: Function 
-    DNDZone?: HTMLElement
 }
 
-export default function Placeholder ({index, moveItem, DNDZone}: Props) {
+export default function Placeholder ({index, moveItem}: Props) {
     return (<p>
         <span 
             onMouseOver={(e)=>{
@@ -25,14 +24,7 @@ export default function Placeholder ({index, moveItem, DNDZone}: Props) {
                 const target = e.currentTarget.parentElement
                 if(!target || target.parentElement?.dataset.dragging === "false") return 
                 target.style.minHeight = ""
-                if(index.split("-")[1] !== undefined) {
-                    let source = target.parentElement?.dataset.dragging === undefined ? DNDZone : target.parentElement
-
-                    moveItem(source?.dataset.dragging, index)
-                }
-                else {
-                    moveItem(target.parentElement?.dataset.dragging, index)
-                }
+                moveItem(target.parentElement?.dataset.dragging, index)
                 target.classList.remove('expanded')
             }} 
         >

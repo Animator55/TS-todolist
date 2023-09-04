@@ -68,7 +68,6 @@ export default function List({ array }: Props) {
                     lastMove = { lastMove === section.id }
                     isOpen= {openList.includes(section.id)}
                     open= {()=>{toggleOpen(section.id)}}
-                    moveItem= {moveItem}
                 />
                 <Placeholder index={`${i + 1}`} moveItem={moveItem} />
             </React.Fragment>)
