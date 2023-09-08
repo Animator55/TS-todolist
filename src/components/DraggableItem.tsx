@@ -13,9 +13,10 @@ interface Props {
     lastMove: boolean
     isOpen: boolean
     open: VoidFunction
+    deleteItem: Function
 }
 
-export default function DraggableItem ({item, query, lastMove, isOpen, open}: Props) {
+export default function DraggableItem ({item, query, lastMove, isOpen, open, deleteItem}: Props) {
     
     const DragNDrop = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         const target = e.target as HTMLElement
@@ -85,7 +86,7 @@ export default function DraggableItem ({item, query, lastMove, isOpen, open}: Pr
         </div>
         <div className='actions'>
             <button className='no-drag'><FontAwesomeIcon icon={faPencil}/></button>
-            <button className='no-drag'><FontAwesomeIcon icon={faXmark}/></button>
+            <button className='no-drag' onClick={()=>{deleteItem(item.data.id)}}><FontAwesomeIcon icon={faXmark}/></button>
         </div>
         <div className='info-button no-drag'>
             <button className='no-drag'><FontAwesomeIcon icon={faInfo}/></button>
@@ -102,7 +103,9 @@ export default function DraggableItem ({item, query, lastMove, isOpen, open}: Pr
                         {subItem.title}
                         <div className='actions'>
                             <button className='no-drag'><FontAwesomeIcon icon={faPencil}/></button>
-                            <button className='no-drag'><FontAwesomeIcon icon={faXmark}/></button>
+                            <button className='no-drag' 
+                                onClick={()=>{deleteItem(item.data.id, subItem.id)}}
+                            ><FontAwesomeIcon icon={faXmark}/></button>
                         </div>
                     </div>
                 })}

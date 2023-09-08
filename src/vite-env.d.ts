@@ -17,4 +17,5 @@ export interface Item {
     description: string
     priority: number
     subItems: SubItem[]
+    tags?: string[]
   }
