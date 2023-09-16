@@ -81,7 +81,7 @@ export default function DraggableItem ({item, query, lastMove, isOpen, open, del
             {item.data.subItems?.length !== 0 && <button className='no-drag' onClick={open}> <FontAwesomeIcon icon={isOpen ? faCaretUp : faCaretDown}/></button>}
         </div>
         <div className='main'>
-            <h3 className='title' data-text="Title" dangerouslySetInnerHTML={{__html: selectText(item.data.title, query)}}/>
+            <h4 className='title' data-text="Title" dangerouslySetInnerHTML={{__html: selectText(item.data.title, query)}}/>
             <p className='description' data-text="Description">{item.data.description}</p>
         </div>
         <div className='actions'>

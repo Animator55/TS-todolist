@@ -107,7 +107,7 @@ export default function List({ array }: Props) {
             sort={{ sort: sort, sortList: getSortKeys(), setSort: setSort}} 
             // groups={{viewGroups, setViewGroups}}
         />
-        {popUp[0] && <AlertPop confirm={popUp[1]} close={()=>{setPopUp([false, undefined])}}/>}
+        {popUp[0] && typeof popUp[1] === "function" && <AlertPop confirm={popUp[1]} close={()=>{setPopUp([false, undefined])}}/>}
         <section className='dnd-zone' data-dragging="false">
             {/* <AutoComplete autoList={autoList} queryList={queryList}/> */}
             {/* <AddBtn click={()=>{changeList(true)}}/> */}

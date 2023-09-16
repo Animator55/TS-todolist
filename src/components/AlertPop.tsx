@@ -10,9 +10,11 @@ export default function AlertPop({confirm, close}: Props) {
   return (
     <section className='blur' onClick={(e)=>{if(e.currentTarget?.className === "blur") close()}}>
         <div className='pop-up'>
-            <h1>Confirm action</h1>
-            <button onClick={confirm}><FontAwesomeIcon icon={faCheck} /></button>
-            <button onClick={close}><FontAwesomeIcon icon={faXmark} /></button>
+            <h1>Delete item</h1>
+            <div>
+              <button onClick={confirm}><FontAwesomeIcon icon={faCheck} /></button>
+              <button onClick={close}><FontAwesomeIcon icon={faXmark} /></button>
+            </div>
         </div>
     </section>
   )
